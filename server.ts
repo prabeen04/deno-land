@@ -2,9 +2,12 @@ import { Application, Router } from 'https://deno.land/x/oak/mod.ts';
 
 const app = new Application();
 const router = new Router();
-const config = { port: 3333};
+const config = { port: 3333 };
 app.use(router.routes())
 app.use(router.allowedMethods())
+router.get('/users/:id', context => {
+	context.response.body = "user detail"
+})
 router.get("/users", (context) => {
 	context.response.body = "hello users";
 })
