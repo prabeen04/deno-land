@@ -1,4 +1,4 @@
-import { DATA_TYPES, Database, Model } from 'https://deno.land/x/denodb/mod.ts';
+import { Database } from 'https://deno.land/x/denodb/mod.ts';
 import { config, DotenvConfig } from "https://deno.land/x/dotenv/mod.ts";
 
 type CONFIG = DotenvConfig & {
