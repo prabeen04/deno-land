@@ -1,11 +1,10 @@
 import { Router } from 'https://deno.land/x/oak/mod.ts';
+import { getAllUsers } from './modules/user/user.route.ts';
 const router = new Router();
 
 router.get('/users/:id', context => {
   context.response.body = "user detail"
 })
-router.get("/users", (context) => {
-  context.response.body = "hello users";
-})
+router.get("/users", getAllUsers)
 
 export default router;
