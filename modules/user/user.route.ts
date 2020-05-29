@@ -1,5 +1,6 @@
 import { UserModel } from './user.model.ts'
 
-export function getAllUsers(ctx: any) {
+export async function getAllUsers(ctx: any) {
+  const users = await UserModel.all()
   ctx.response.body = { name: "test", email: "test@test.com" }
 }
