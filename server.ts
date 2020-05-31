@@ -4,7 +4,7 @@ import router from './router.ts';
 
 const app = new Application();
 
-const config = { port: 3333 };
+const config = { port: 8080 };
 app.use(router.routes())
 app.use(router.allowedMethods())
 
