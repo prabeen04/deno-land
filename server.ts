@@ -9,6 +9,6 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 await connectDB()
-console.log(`server runnig on port ${config.port}`)
+console.log(`server successfully runnig on port ${config.port}`)
 await app.listen(config)
 
