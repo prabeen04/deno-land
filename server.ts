@@ -4,11 +4,11 @@ import router from './router.ts';
 
 const app = new Application();
 
-const config = { port: 3333 };
+const config = { port: 8080 };
 app.use(router.routes())
 app.use(router.allowedMethods())
 
 await connectDB()
-console.log(`server runnig on port ${config.port}`)
+console.log(`server successfully runnig on port ${config.port}`)
 await app.listen(config)
 
