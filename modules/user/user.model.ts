@@ -13,7 +13,12 @@ export class UserModel extends Model {
     username: DATA_TYPES.STRING,
     firstname: DATA_TYPES.STRING,
     lastname: DATA_TYPES.STRING,
-    email: DATA_TYPES.STRING,
+    email: {
+      type: DATA_TYPES.STRING,
+      unique: true,
+      allowNull: false,
+      length: 50,
+    },
     password: DATA_TYPES.TEXT,
   };
 
