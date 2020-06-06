@@ -23,9 +23,9 @@ export async function getUserById(ctx: RouterContext) {
 
 export async function addUser(ctx: RouterContext) {
   try {
-    const payload: any = await ctx.request.body()
-    console.log(payload.value)
-    const user = await UserModel.create(payload.value)
+    const body: any = await ctx.request.body()
+    const payload = JSON.parse(body.value)
+    const user = await UserModel.create(payload)
     ctx.response.body = user
   } catch (error) {
     ctx.response.body = error
