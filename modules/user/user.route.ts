@@ -31,3 +31,12 @@ export async function addUser(ctx: RouterContext) {
     ctx.response.body = error
   }
 }
+export async function deleteUser(ctx: RouterContext) {
+  try {
+    const { id } = await ctx.params
+    await UserModel.where("id", id).delete()
+    ctx.response.body = id
+  } catch (error) {
+    ctx.response.body = error
+  }
+}
