@@ -31,6 +31,17 @@ export async function addUser(ctx: RouterContext) {
     ctx.response.body = error
   }
 }
+export async function updateUser(ctx: RouterContext) {
+  try {
+    const { id } = await ctx.params
+    const body: any = await ctx.request.body()
+    const payload = JSON.parse(body.value)
+    const user = await UserModel.where("id", id).update(payload)
+    ctx.response.body = user
+  } catch (error) {
+    ctx.response.body = error
+  }
+}
 export async function deleteUser(ctx: RouterContext) {
   try {
     const { id } = await ctx.params
