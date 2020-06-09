@@ -51,3 +51,10 @@ export async function deleteUser(ctx: RouterContext) {
     ctx.response.body = error
   }
 }
+export function getUserRoutes(router: any) {
+  router.get('/users/:id', getUserById)
+  router.get("/users", getAllUsers)
+  router.post("/users", addUser)
+  router.patch("/users/:id", updateUser)
+  router.delete("/users/:id", deleteUser)
+}
