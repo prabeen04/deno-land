@@ -1,5 +1,6 @@
 import { UserModel } from './user.model.ts'
 import { Context, RouterContext } from 'https://deno.land/x/oak/mod.ts';
+import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 
 export async function getAllUsers(ctx: RouterContext) {
   try {
@@ -25,7 +26,9 @@ export async function addUser(ctx: RouterContext) {
   try {
     const body: any = await ctx.request.body()
     const payload = JSON.parse(body.value)
-    const user = await UserModel.create(payload)
+    const salt = await bcrypt.genSalt(8);
+    const hashedPassword = await bcrypt.hash(payload.password, salt);
+    const user = await UserModel.create({ ...payload, password: hashedPassword })
     ctx.response.body = user
   } catch (error) {
     ctx.response.body = error
@@ -36,6 +39,7 @@ export async function updateUser(ctx: RouterContext) {
     const { id } = await ctx.params
     const body: any = await ctx.request.body()
     const payload = JSON.parse(body.value)
+    console.log(payload)
     const user = await UserModel.where("id", id).update(payload)
     ctx.response.body = user
   } catch (error) {
