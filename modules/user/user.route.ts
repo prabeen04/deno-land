@@ -26,6 +26,17 @@ export async function addUser(ctx: RouterContext) {
   try {
     const body: any = await ctx.request.body()
     const payload = JSON.parse(body.value)
+    delete payload.password
+    const user = await UserModel.create(payload)
+    ctx.response.body = user
+  } catch (error) {
+    ctx.response.body = error
+  }
+}
+export async function signup(ctx: RouterContext) {
+  try {
+    const body: any = await ctx.request.body()
+    const payload = JSON.parse(body.value)
     const salt = await bcrypt.genSalt(8);
     const hashedPassword = await bcrypt.hash(payload.password, salt);
     const user = await UserModel.create({ ...payload, password: hashedPassword })
@@ -61,4 +72,5 @@ export function getUserRoutes(router: any) {
   router.post("/users", addUser)
   router.patch("/users/:id", updateUser)
   router.delete("/users/:id", deleteUser)
+  router.post('/signup', signup)
 }
