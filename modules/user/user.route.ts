@@ -2,6 +2,8 @@ import { UserModel } from './user.model.ts'
 import { Context, RouterContext } from 'https://deno.land/x/oak/mod.ts';
 import * as bcrypt from "https://deno.land/x/bcrypt/mod.ts";
 
+const SALT = await bcrypt.genSalt(8);
+
 export async function getAllUsers(ctx: RouterContext) {
   try {
     const users = await UserModel.all()
@@ -37,11 +39,29 @@ export async function signup(ctx: RouterContext) {
   try {
     const body: any = await ctx.request.body()
     const payload = JSON.parse(body.value)
-    const salt = await bcrypt.genSalt(8);
-    const hashedPassword = await bcrypt.hash(payload.password, salt);
+
+    const hashedPassword = await bcrypt.hash(payload.password, SALT);
     const user = await UserModel.create({ ...payload, password: hashedPassword })
     ctx.response.body = user
   } catch (error) {
+    ctx.response.body = error
+  }
+}
+export async function login(ctx: RouterContext) {
+  try {
+    const body: any = await ctx.request.body()
+    console.log(body)
+    const payload = body.value
+    console.log(payload)
+    const res = await UserModel.where("email", payload.email).get();
+    console.log(res)
+    debugger
+    const status = await bcrypt.compare(payload.password, res[0].password);
+    console.log(status)
+    debugger
+    ctx.response.body = status
+  } catch (error) {
+    console.log(error)
     ctx.response.body = error
   }
 }
@@ -73,4 +93,5 @@ export function getUserRoutes(router: any) {
   router.patch("/users/:id", updateUser)
   router.delete("/users/:id", deleteUser)
   router.post('/signup', signup)
+  router.post('/login', login)
 }
