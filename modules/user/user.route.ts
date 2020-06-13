@@ -50,18 +50,11 @@ export async function signup(ctx: RouterContext) {
 export async function login(ctx: RouterContext) {
   try {
     const body: any = await ctx.request.body()
-    console.log(body)
     const payload = body.value
-    console.log(payload)
     const res = await UserModel.where("email", payload.email).get();
-    console.log(res)
-    debugger
     const status = await bcrypt.compare(payload.password, res[0].password);
-    console.log(status)
-    debugger
     ctx.response.body = status
   } catch (error) {
-    console.log(error)
     ctx.response.body = error
   }
 }
@@ -70,7 +63,6 @@ export async function updateUser(ctx: RouterContext) {
     const { id } = await ctx.params
     const body: any = await ctx.request.body()
     const payload = JSON.parse(body.value)
-    console.log(payload)
     const user = await UserModel.where("id", id).update(payload)
     ctx.response.body = user
   } catch (error) {
