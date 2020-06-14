@@ -24,17 +24,6 @@ export async function getUserById(ctx: RouterContext) {
   }
 }
 
-export async function addUser(ctx: RouterContext) {
-  try {
-    const body: any = await ctx.request.body()
-    const payload = JSON.parse(body.value)
-    delete payload.password
-    const user = await UserModel.create(payload)
-    ctx.response.body = user
-  } catch (error) {
-    ctx.response.body = error
-  }
-}
 export async function signup(ctx: RouterContext) {
   try {
     const body: any = await ctx.request.body()
@@ -81,7 +70,6 @@ export async function deleteUser(ctx: RouterContext) {
 export function getUserRoutes(router: any) {
   router.get('/users/:id', getUserById)
   router.get("/users", getAllUsers)
-  router.post("/users", addUser)
   router.patch("/users/:id", updateUser)
   router.delete("/users/:id", deleteUser)
   router.post('/signup', signup)
